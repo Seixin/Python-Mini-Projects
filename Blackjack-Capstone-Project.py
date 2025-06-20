@@ -45,11 +45,11 @@ def playgame():
     for _ in range(2):
         computer_card.append(deal_card())
         user_card.append(deal_card())
-
+        
+    computer_score = calculate_score(computer_card)
+    user_score = calculate_score(user_card)
     should_continue = True
     while should_continue:
-        computer_score = calculate_score(computer_card)
-        user_score = calculate_score(user_card)
         print(f"Your cards: {user_card}, current score: {user_score}")
         print(f"Computer's first card: {computer_card[0]}")
 
