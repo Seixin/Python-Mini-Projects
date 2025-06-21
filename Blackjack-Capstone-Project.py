@@ -9,7 +9,8 @@ print(r"""
 |  \/ | /  \ |     | |_) | | (_| | (__|   <| | (_| | (__|   < 
 '-----| \  / |     |_.__/|_|\__,_|\___|_|\_\ |\__,_|\___|_|\_/
       |  \/ K|                            _/ |                
-      '------'     """)
+      '------'     
+""")
 
 def deal_card():
     cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
@@ -25,64 +26,55 @@ def calculate_score(cards):
 
 def compare(user_score, computer_score):
     if user_score == 0:
-        return "You Won with a blackjack"
+        return "You won with a Blackjack!"
     elif computer_score == 0:
-        return "You Lost. Computer has a blackjack"
+        return "You lost. Computer has a Blackjack!"
     elif user_score > 21:
-        return "You Lost"
+        return "You went over. You lose."
     elif computer_score > 21:
-        return "You Won"
-    elif computer_score > user_score:
-        return "You Lost"
+        return "Computer went over. You win!"
     elif user_score > computer_score:
-        return "You Won"
+        return "You win!"
+    elif user_score < computer_score:
+        return "You lose."
     else:
-        return "Draw"
+        return "Draw."
 
 def playgame():
     user_card = []
     computer_card = []
     for _ in range(2):
-        computer_card.append(deal_card())
         user_card.append(deal_card())
-        
-    computer_score = calculate_score(computer_card)
-    user_score = calculate_score(user_card)
+        computer_card.append(deal_card())
+
     should_continue = True
     while should_continue:
+        user_score = calculate_score(user_card)
+        computer_score = calculate_score(computer_card)
+
         print(f"Your cards: {user_card}, current score: {user_score}")
         print(f"Computer's first card: {computer_card[0]}")
 
-        if user_score > 21:
+        if user_score == 0 or computer_score == 0 or user_score > 21:
             should_continue = False
-            break
-
-        while True:
-            choice = input("Type 'y' to get another card, type 'n' to pass: ")
+        else:
+            choice = input("Type 'y' to get another card, type 'n' to pass: ").lower()
             if choice == 'y':
                 user_card.append(deal_card())
-                user_score = calculate_score(user_card)
-                if user_score > 21:
-                    should_continue = False
-                break
             elif choice == 'n':
                 should_continue = False
-                break
             else:
-                print("invalid input, please type correctly")
+                print("Invalid input. Please type 'y' or 'n'.")
 
-    while calculate_score(computer_card) < 17:
-        computer_card.append(deal_card())
-        computer_score = calculate_score(computer_card)
+    if calculate_score(user_card) <= 21:
+        while calculate_score(computer_card) != 0 and calculate_score(computer_card) < 17:
+            computer_card.append(deal_card())
 
-    user_score = calculate_score(user_card)
-    print(f"   Your final hand: {user_card}, final score: {user_score}")
-    print(f"   Computer's final hand: {computer_card}, final score: {computer_score}")
-    print(compare(user_score, computer_score))
 
-    play = input("Do you want to play a game of blackjack. Type y or n: ").lower()
-    while play == "y":
-        clear()
-        playgame()
+    print(f"\nYour final hand: {user_card}, final score: {calculate_score(user_card)}")
+    print(f"Computer's final hand: {computer_card}, final score: {calculate_score(computer_card)}")
+    print(compare(calculate_score(user_card), calculate_score(computer_card)))
 
-playgame()
+while input("Do you want to play a game of blackjack? Type 'y' or 'n': ").lower() == "y":
+    clear()
+    playgame()
