@@ -19,6 +19,27 @@ def choice_level():
         else:
             print("Choose only hard or easy")
 
+def compare(guess, correct_number, lives):
+    if guess > correct_number:
+        lives -=1
+        print("Too High")
+        if lives != 0:
+            print("Guess Again")
+        else:
+            print("You Lose")
+
+    elif correct_number > guess:
+        lives -=1
+        print("Too Low")
+        if lives != 0:
+            print("Guess Again")
+        else:
+            print("You Lose")
+    else:
+        print(f"You got it! The answer was {correct_number}")
+        lives = 0
+    return lives
+
 def playgame():
     correct_number = random.randint(1, 100)
     print("Welcome to the Number Guessing Game!\nI'm thinking of a number between 1 and 100")
@@ -28,24 +49,7 @@ def playgame():
         print(f"You have {lives} attempts remaining to guess the number.")
         guess = int(input("Make a guess: "))
 
-        if guess > correct_number:
-            lives -=1
-            print("Too High")
-            if lives != 0:
-                print("Guess Again")
-            else:
-                print("You Lose")
-
-        elif correct_number > guess:
-            lives -=1
-            print("Too Low")
-            if lives != 0:
-                print("Guess Again")
-            else:
-                print("You Lose")
-        else:
-            print(f"You got it! The answer was {correct_number}")
-            break
+        lives = compare(guess, correct_number, lives)
 
 while True:
     playgame()
