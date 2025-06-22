@@ -47,8 +47,11 @@ def playgame():
     lives = choice_level()
     while lives != 0:
         print(f"You have {lives} attempts remaining to guess the number.")
-        guess = int(input("Make a guess: "))
-
+        try:
+            guess = int(input("Make a guess: "))
+        except ValueError:
+            print("Please Input The Valid Number")
+            continue
         lives = compare(guess, correct_number, lives)
 
 while True:
